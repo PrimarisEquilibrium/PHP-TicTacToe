@@ -1,25 +1,38 @@
 <?php
+require "vendor/autoload.php";
+
+$loader = new \Twig\Loader\FilesystemLoader("views");
+$twig = new \Twig\Environment($loader);
+
 enum Mark: string
 {
     case X = "X";
     case O = "O";
+    case EMPTY = "";
 }
 
 class Board
 {
-    private $board;
+    public $board;
 
     public function __construct()
     {
-        $this->board = array_fill(0, 9, null);
+        $this->board = [
+            [Mark::EMPTY, Mark::EMPTY, Mark::EMPTY],
+            [Mark::EMPTY, Mark::EMPTY, Mark::EMPTY],
+            [Mark::EMPTY, Mark::EMPTY, Mark::EMPTY]
+        ];
     }
 
     /**
-     * Echos (prints) the json representation of the board.
+     * Returns an array containing the string array representation of the board (opposed to using Mark enums).
+     * @return string[] The string array representation of the board
      */
-    public function renderBoard(): void
-    {
-        echo json_encode($this->board);
+    public function getValues() : array {
+        return array_map(
+            fn($row) => array_map(fn($mark) => $mark->value, $row),
+            $this->board
+        );
     }
 
     /**
@@ -34,12 +47,12 @@ class Board
     }
 
     /**
-     * Returns the mark (or null) from the given position on the board.
+     * Returns the mark from the given position on the board.
      * @param int $row The row of the mark.
      * @param int $col The column of the mark.
-     * @return Mark|null The mark if found; otherwise null.
+     * @return Mark The mark.
      */
-    public function markFromPosition(int $row, int $col): Mark|null
+    public function markFromPosition(int $row, int $col): Mark
     {
         return $this->board[$row][$col];
     }
@@ -54,25 +67,19 @@ $board = new Board();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicTacToe</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-        </div>
-        <div class="row">
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-        </div>
-        <div class="row">
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-        </div>
-    </div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TicTacToe</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <?php echo $twig->render('index.html.twig', ['board' => $board->getValues()]); ?>
+    </body>
+    </html>
 </body>
 </html>
