@@ -1,10 +1,23 @@
 {
   "devDependencies": {
     "@prettier/plugin-php": "^0.22.2",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
   },
   "scripts": {
     "prettier": "prettier",
-    "prettier:php": "npm run prettier -- .\\index.php --write"
-  }
+    "prettier:php": "npm run prettier -- .\\index.php --write",
+    "start": "tsc --watch"
+  },
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "A simple web-based Tic-Tac-Toe game built with PHP.",
+  "main": "index.js",
+  "dependencies": {
+    "linguist-languages": "^7.27.0",
+    "php-parser": "^3.2.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

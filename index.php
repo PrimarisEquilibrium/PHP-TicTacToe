@@ -75,9 +75,10 @@ $board = new Board();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>TicTacToe</title>
 </head>
 <body>
-    <?php echo $twig->render('index.html.twig', ['board' => $board->getValues()]); ?>
+    <?php echo $twig->render('index.html', ['board' => $board->getValues()]); ?>
 </body>
 </html>
