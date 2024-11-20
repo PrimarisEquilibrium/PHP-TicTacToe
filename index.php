@@ -5,7 +5,7 @@ $loader = new \Twig\Loader\FilesystemLoader("views");
 $twig = new \Twig\Environment($loader);
 
 /**
- * A possible "mark" a grid/box on the tic-tac-toe board could have.
+ * A possible "mark" a grid/cell on the tic-tac-toe board could have.
  *  - X
  *  - O
  *  - EMPTY

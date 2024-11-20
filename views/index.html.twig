@@ -1,8 +1,8 @@
 <div class="container">
   {% for row in board %}
     <div class="row">
-      {% for box in row %}
-        <div class="box">{{ box }}</div>
+      {% for cell in row %}
+        <div class="cell">{{ cell }}</div>
       {% endfor %}
     </div>
   {% endfor %}
