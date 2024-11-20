@@ -4,6 +4,12 @@ require "vendor/autoload.php";
 $loader = new \Twig\Loader\FilesystemLoader("views");
 $twig = new \Twig\Environment($loader);
 
+/**
+ * A possible "mark" a grid/box on the tic-tac-toe board could have.
+ *  - X
+ *  - O
+ *  - EMPTY
+ */
 enum Mark: string
 {
     case X = "X";
@@ -11,6 +17,9 @@ enum Mark: string
     case EMPTY = "";
 }
 
+/**
+ * A 3x3 tic-tac-toe board, individual cells can be marked as X or O.
+ */
 class Board
 {
     public $board;
