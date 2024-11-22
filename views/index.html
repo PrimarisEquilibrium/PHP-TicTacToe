@@ -1,9 +1,21 @@
-<div class="container">
-  {% for r, row in board %}
-  <div class="row">
-    {% for c, cell in row %}
-    <div class="cell" data-row="{{r}}" data-col="{{c}}">{{ cell }}</div>
-    {% endfor %}
-  </div>
-  {% endfor %}
-</div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>TicTacToe</title>
+  </head>
+  <body>
+    <div class="container">
+      {% for r, row in board %}
+      <div class="row">
+        {% for c, cell in row %}
+        <div class="cell" data-row="{{r}}" data-col="{{c}}">{{ cell }}</div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    <script src="./dest/index.js"></script>
+  </body>
+</html>

@@ -75,24 +75,19 @@ class Board
 
 $board = new Board();
 
-if (isset($_REQUEST["pos"])) {
-    $cell_pos = json_decode(stripslashes($_REQUEST["pos"]));
-    $row = $cell_pos[0];
-    $col = $cell_pos[1];
-    $board->assignMark(Mark::X, $row, $col);
-}
-?>
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Get pos POST argument (the clicked cell row and column data values)
+    $posData = $_REQUEST["pos"];
+    $posData = json_decode($posData, true); // Decode as an associative array
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>TicTacToe</title>
-</head>
-<body>
-    <?php echo $twig->render("index.html", ["board" => $board->getValues()]); ?>
-    <script src="./dest/index.js"></script>
-</body>
-</html>
+    $row = intval($posData[0]);
+    $col = intval($posData[1]);
+
+    // Update the board and send the new HTML state as a response to the AJAX
+    $board->assignMark(Mark::X, $row, $col);
+    echo $twig->render("index.html", ["board" => $board->getValues()]);
+} else {
+    echo $twig->render("index.html", ["board" => $board->getValues()]);
+}
+
+?>
