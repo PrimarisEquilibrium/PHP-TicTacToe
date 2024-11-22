@@ -29,7 +29,7 @@ class Board
         $this->board = [
             [Mark::EMPTY, Mark::EMPTY, Mark::EMPTY],
             [Mark::EMPTY, Mark::EMPTY, Mark::EMPTY],
-            [Mark::EMPTY, Mark::EMPTY, Mark::EMPTY]
+            [Mark::EMPTY, Mark::EMPTY, Mark::EMPTY],
         ];
     }
 
@@ -37,7 +37,8 @@ class Board
      * Returns an array containing the string array representation of the board (opposed to using Mark enums).
      * @return string[] The string array representation of the board
      */
-    public function getValues() : array {
+    public function getValues(): array
+    {
         return array_map(
             fn($row) => array_map(fn($mark) => $mark->value, $row),
             $this->board
@@ -65,9 +66,21 @@ class Board
     {
         return $this->board[$row][$col];
     }
+
+    public function onCellClick()
+    {
+        echo "<script>console.log('PHP:');</script>";
+    }
 }
 
 $board = new Board();
+
+if (isset($_REQUEST["pos"])) {
+    $cell_pos = json_decode(stripslashes($_REQUEST["pos"]));
+    $row = $cell_pos[0];
+    $col = $cell_pos[1];
+    $board->assignMark(Mark::X, $row, $col);
+}
 ?>
 
 <!DOCTYPE html>
@@ -79,6 +92,7 @@ $board = new Board();
     <title>TicTacToe</title>
 </head>
 <body>
-    <?php echo $twig->render('index.html', ['board' => $board->getValues()]); ?>
+    <?php echo $twig->render("index.html", ["board" => $board->getValues()]); ?>
+    <script src="./dest/index.js"></script>
 </body>
 </html>

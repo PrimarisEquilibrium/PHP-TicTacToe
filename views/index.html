@@ -2,9 +2,8 @@
   {% for r, row in board %}
   <div class="row">
     {% for c, cell in row %}
-    <div class="cell">{{ cell }}</div>
+    <div class="cell" data-row="{{r}}" data-col="{{c}}">{{ cell }}</div>
     {% endfor %}
   </div>
   {% endfor %}
 </div>
-<script src="./dest/index.js"></script>
