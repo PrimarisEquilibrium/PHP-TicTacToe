@@ -73,7 +73,13 @@ class Board
     }
 }
 
-$board = new Board();
+session_start();
+// Keep the board state persistant across requests
+if (!isset($_SESSION["board"])) {
+    $_SESSION["board"] = new Board();
+} else {
+    $board = $_SESSION["board"];
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get pos POST argument (the clicked cell row and column data values)
