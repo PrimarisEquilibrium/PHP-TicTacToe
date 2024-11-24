@@ -1,4 +1,6 @@
 <?php
+namespace TicTacToe;
+
 /**
  * A possible "mark" a grid/cell on the tic-tac-toe board could have.
  *  - X

@@ -1,4 +1,10 @@
 <?php
+namespace TicTacToe;
+
+require_once "Mark.php";
+
+use TicTacToe\Mark;
+
 /**
  * A 3x3 tic-tac-toe board, individual cells can be marked as X or O.
  */

@@ -1,26 +1,18 @@
 <?php
 require "../vendor/autoload.php";
-require "./classes/board.php";
-require "./classes/mark-enum.php";
+
+require "./classes/Board.php";
+require_once "./classes/Mark.php";
+require_once "utils.php";
+
+use TicTacToe\Board;
+use TicTacToe\Mark;
+use function Utils\get_or_init_session_data;
 
 $loader = new \Twig\Loader\FilesystemLoader("views");
 $twig = new \Twig\Environment($loader);
 
 session_start();
-
-/**
- * Retrieves (and initializes if needed) the session state from the given id.
- * @param string $id The session value's id.
- * @param mixed $defaultValue The default value if the session state needs to be initialized.
- * @return mixed The retrieved value of the session id.
- */
-function get_or_init_session_data(string $id, mixed $defaultValue): mixed
-{
-    if (!isset($_SESSION[$id])) {
-        $_SESSION[$id] = $defaultValue;
-    }
-    return $_SESSION[$id];
-}
 
 // Reset session data when the page is reloaded
 $pageRefreshed =
