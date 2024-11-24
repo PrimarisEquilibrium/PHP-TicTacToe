@@ -8,6 +8,7 @@ require_once "utils.php";
 use TicTacToe\Board;
 use TicTacToe\Mark;
 use function Utils\get_or_init_session_data;
+use function Utils\reset_session_on_refresh;
 
 $loader = new \Twig\Loader\FilesystemLoader("views");
 $twig = new \Twig\Environment($loader);
@@ -15,20 +16,12 @@ $twig = new \Twig\Environment($loader);
 session_start();
 
 // Reset session data when the page is reloaded
-$pageRefreshed =
-    isset($_SERVER["HTTP_CACHE_CONTROL"]) &&
-    ($_SERVER["HTTP_CACHE_CONTROL"] === "max-age=0" ||
-        $_SERVER["HTTP_CACHE_CONTROL"] == "no-cache");
-if ($pageRefreshed == 1) {
-    session_destroy();
-    // Recall session_start() to start a new session immediately after the old one is deleted
-    // Otherwise it takes another page reload to update the session state (calling the prior session_start() method)
-    session_start();
-}
+reset_session_on_refresh();
 
 // Keep the board & current player state persistant across requests
 $board = get_or_init_session_data("board", new Board());
 $cur_player = get_or_init_session_data("cur_player", Mark::X);
+
 $next_player = $cur_player === Mark::X ? Mark::O : Mark::X;
 $valid_move = false; // Stores if the most recent move was valid
 
@@ -59,6 +52,7 @@ if ($valid_move) {
 }
 echo "Player: `" . $player_to_display->value . "` turn! <br>";
 
+// Display winner
 if ($board->checkWin()) {
     echo "Winner: " . $board->checkWin()->value;
 }

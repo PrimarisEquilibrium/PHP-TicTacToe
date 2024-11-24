@@ -14,4 +14,20 @@ function get_or_init_session_data(string $id, mixed $defaultValue): mixed
     }
     return $_SESSION[$id];
 }
+
+/**
+ * Destroys and then reinitializes cached session data.
+ */
+function reset_session_on_refresh(): void
+{
+    $pageRefreshed =
+        isset($_SERVER["HTTP_CACHE_CONTROL"]) &&
+        ($_SERVER["HTTP_CACHE_CONTROL"] === "max-age=0" ||
+            $_SERVER["HTTP_CACHE_CONTROL"] == "no-cache");
+    if ($pageRefreshed == 1) {
+        session_destroy();
+        // Call session_start() to start a new session immediately after the old one is deleted
+        session_start();
+    }
+}
 ?>
