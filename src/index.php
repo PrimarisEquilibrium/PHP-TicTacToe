@@ -21,6 +21,9 @@ $pageRefreshed =
         $_SERVER["HTTP_CACHE_CONTROL"] == "no-cache");
 if ($pageRefreshed == 1) {
     session_destroy();
+    // Recall session_start() to start a new session immediately after the old one is deleted
+    // Otherwise it takes another page reload to update the session state (calling the prior session_start() method)
+    session_start();
 }
 
 // Keep the board & current player state persistant across requests

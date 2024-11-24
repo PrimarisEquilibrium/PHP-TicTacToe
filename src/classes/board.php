@@ -10,7 +10,10 @@ use TicTacToe\Mark;
  */
 class Board
 {
-    public $board;
+    /**
+     * @var Mark[][]
+     */
+    public array $board;
     public $is_empty = true;
 
     public function __construct()
