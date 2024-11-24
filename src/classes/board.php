@@ -26,7 +26,7 @@ class Board
      * Returns an array containing the string array representation of the board (opposed to using Mark enums).
      * @return string[] The string array representation of the board
      */
-    public function getValues(): array
+    public function get_values(): array
     {
         return array_map(
             fn($row) => array_map(fn($mark) => $mark->value, $row),
@@ -40,7 +40,7 @@ class Board
      * @param int $row The row to fill / replace.
      * @param int $col The column to fill / replace.
      */
-    public function assignMark(Mark $mark, int $row, int $col): void
+    public function assign_mark(Mark $mark, int $row, int $col): void
     {
         $this->board[$row][$col] = $mark;
         $this->is_empty = false;
@@ -52,7 +52,7 @@ class Board
      * @param int $col The column of the mark.
      * @return Mark The mark.
      */
-    public function markFromPosition(int $row, int $col): Mark
+    public function mark_from_position(int $row, int $col): Mark
     {
         return $this->board[$row][$col];
     }

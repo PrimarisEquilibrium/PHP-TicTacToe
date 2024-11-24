@@ -37,9 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $row = intval($posData[0]);
     $col = intval($posData[1]);
 
-    if ($board->markFromPosition($row, $col) === Mark::EMPTY) {
+    if ($board->mark_from_position($row, $col) === Mark::EMPTY) {
         // Update the board with the new mark
-        $board->assignMark($cur_player, $row, $col);
+        $board->assign_mark($cur_player, $row, $col);
         $valid_move = true;
         $_SESSION["cur_player"] = $next_player;
     }
@@ -57,6 +57,5 @@ if ($valid_move) {
     echo "Player: `" . $cur_player->value . "` turn!";
 }
 
-echo $twig->render("index.html.twig", ["board" => $board->getValues()]);
-
+echo $twig->render("index.html.twig", ["board" => $board->get_values()]);
 ?>
