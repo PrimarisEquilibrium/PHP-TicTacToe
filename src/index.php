@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require "../vendor/autoload.php";
 
 $loader = new \Twig\Loader\FilesystemLoader("views");
 $twig = new \Twig\Environment($loader);
@@ -116,11 +116,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Update the board and send the new HTML state as the response
     $board->assignMark($cur_player, $row, $col);
-    echo $twig->render("index.html", ["board" => $board->getValues()]);
+    echo $twig->render("index.html.twig", ["board" => $board->getValues()]);
 
     $_SESSION["cur_player"] = $next_player;
 } else {
-    echo $twig->render("index.html", ["board" => $board->getValues()]);
+    echo $twig->render("index.html.twig", ["board" => $board->getValues()]);
 }
 
 ?>
