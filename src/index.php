@@ -43,22 +43,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($board->mark_from_position($row, $col) === Mark::EMPTY) {
         // Update the board with the new mark
         $board->assign_mark($cur_player, $row, $col);
+
         $valid_move = true;
         $_SESSION["cur_player"] = $next_player;
     }
 }
 
+// Determine which player's turn to display
 // Only display the next players move if the previous move was valid
 if ($valid_move) {
     // On the first move always display `X` to move
-    if (!$board->is_empty) {
-        echo "Player: `" . $next_player->value . "` turn!";
-    } else {
-        echo "Player: `" . $cur_player->value . "` turn!";
-    }
+    $player_to_display = !$board->is_empty ? $next_player : $cur_player;
 } else {
-    echo "Player: `" . $cur_player->value . "` turn!";
+    $player_to_display = $cur_player;
 }
+echo "Player: `" . $player_to_display->value . "` turn!";
 
 echo $twig->render("index.html.twig", ["board" => $board->get_values()]);
 ?>

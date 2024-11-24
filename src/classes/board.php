@@ -59,5 +59,62 @@ class Board
     {
         return $this->board[$row][$col];
     }
+
+    /**
+     * Returns if the array (of length 3) is filled with only one type of mark, and therefore a win.
+     * @param array $arr The array to check.
+     * @return bool True if the array is considered a 'win'; otherwise false.
+     */
+    public function checkWinArray(array $arr): bool
+    {
+        return !(in_array(Mark::X, $arr) && in_array(Mark::O, $arr)) &&
+            !in_array(Mark::EMPTY, $arr);
+    }
+
+    /**
+     * Determines if there is a winner and return its mark; If one doesn't exist return null.
+     * @return Mark|null The mark that won the game; otherwise null.
+     */
+    public function has_won(): Mark|null
+    {
+        // Compare all rows and columns
+        for ($x = 0; $x < 3; $x++) {
+            // Get the current row and column
+            $row_array = $this->board[$x];
+            $col_array = array_column($this->board, $x);
+
+            // Check for any winners
+            if ($this->checkWinArray($row_array)) {
+                return $row_array[0]->value;
+            }
+
+            if ($this->checkWinArray($col_array)) {
+                return $col_array[0]->value;
+            }
+        }
+
+        // Compare both diagonals
+        $diagonal_array_left = [
+            $this->board[0][0],
+            $this->board[1][1],
+            $this->board[2][2],
+        ];
+        $diagonal_array_right = [
+            $this->board[0][2],
+            $this->board[1][1],
+            $this->board[2][0],
+        ];
+
+        // Check for any winners
+        if ($this->checkWinArray($diagonal_array_left)) {
+            return $diagonal_array_left[0]->value;
+        }
+        if ($this->checkWinArray($diagonal_array_right)) {
+            return $diagonal_array_right[0]->value;
+        }
+
+        // No winner found
+        return null;
+    }
 }
 ?>
