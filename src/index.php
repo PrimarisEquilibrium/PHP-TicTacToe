@@ -104,6 +104,7 @@ if ($pageRefreshed == 1) {
 $board = get_or_init_session_data("board", new Board());
 $cur_player = get_or_init_session_data("cur_player", Mark::X);
 $next_player = $cur_player === Mark::X ? Mark::O : Mark::X;
+$valid_move = false; // Stores if the most recent move was valid
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get pos POST argument (the clicked cell row and column data values)
@@ -113,15 +114,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $row = intval($posData[0]);
     $col = intval($posData[1]);
 
-    // Update the board with the new mark
-    $board->assignMark($cur_player, $row, $col);
-
-    $_SESSION["cur_player"] = $next_player;
+    if ($board->markFromPosition($row, $col) === Mark::EMPTY) {
+        // Update the board with the new mark
+        $board->assignMark($cur_player, $row, $col);
+        $valid_move = true;
+        $_SESSION["cur_player"] = $next_player;
+    }
 }
 
-// On the first move always display `X` to move
-if (!$board->is_empty) {
-    echo "Player: `" . $next_player->value . "` turn!";
+// Only display the next players move if the previous move was valid
+if ($valid_move) {
+    // On the first move always display `X` to move
+    if (!$board->is_empty) {
+        echo "Player: `" . $next_player->value . "` turn!";
+    } else {
+        echo "Player: `" . $cur_player->value . "` turn!";
+    }
 } else {
     echo "Player: `" . $cur_player->value . "` turn!";
 }
