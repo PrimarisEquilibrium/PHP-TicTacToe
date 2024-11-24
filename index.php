@@ -74,12 +74,37 @@ class Board
 }
 
 session_start();
-// Keep the board state persistant across requests
-if (!isset($_SESSION["board"])) {
-    $_SESSION["board"] = new Board();
-} else {
-    $board = $_SESSION["board"];
+
+// Reset session data when the page is reloaded
+$pageRefreshed =
+    isset($_SERVER["HTTP_CACHE_CONTROL"]) &&
+    ($_SERVER["HTTP_CACHE_CONTROL"] === "max-age=0" ||
+        $_SERVER["HTTP_CACHE_CONTROL"] == "no-cache");
+if ($pageRefreshed == 1) {
+    session_destroy();
 }
+
+/**
+ * Retrieves (and initializes if needed) the session state from the given id.
+ * @param string $id The session value's id.
+ * @param mixed $defaultValue The default value if the session state needs to be initialized.
+ * @return mixed The retrieved value of the session id.
+ */
+function get_or_init_session_data(string $id, mixed $defaultValue): mixed
+{
+    if (!isset($_SESSION[$id])) {
+        $_SESSION[$id] = $defaultValue;
+    }
+    return $_SESSION[$id];
+}
+
+// Keep the board & current player state persistant across requests
+$board = get_or_init_session_data("board", new Board());
+$cur_player = get_or_init_session_data("cur_player", Mark::X);
+
+// Echo the player to play next
+$next_player = $cur_player === Mark::X ? Mark::O : Mark::X;
+echo "Player: `" . $next_player->value . "` turn!";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get pos POST argument (the clicked cell row and column data values)
@@ -89,9 +114,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $row = intval($posData[0]);
     $col = intval($posData[1]);
 
-    // Update the board and send the new HTML state as a response to the AJAX
-    $board->assignMark(Mark::X, $row, $col);
+    // Update the board and send the new HTML state as the response
+    $board->assignMark($cur_player, $row, $col);
     echo $twig->render("index.html", ["board" => $board->getValues()]);
+
+    $_SESSION["cur_player"] = $next_player;
 } else {
     echo $twig->render("index.html", ["board" => $board->getValues()]);
 }
