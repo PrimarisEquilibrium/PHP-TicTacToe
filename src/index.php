@@ -23,6 +23,7 @@ enum Mark: string
 class Board
 {
     public $board;
+    public $is_empty = true;
 
     public function __construct()
     {
@@ -54,6 +55,7 @@ class Board
     public function assignMark(Mark $mark, int $row, int $col): void
     {
         $this->board[$row][$col] = $mark;
+        $this->is_empty = false;
     }
 
     /**
@@ -75,15 +77,6 @@ class Board
 
 session_start();
 
-// Reset session data when the page is reloaded
-$pageRefreshed =
-    isset($_SERVER["HTTP_CACHE_CONTROL"]) &&
-    ($_SERVER["HTTP_CACHE_CONTROL"] === "max-age=0" ||
-        $_SERVER["HTTP_CACHE_CONTROL"] == "no-cache");
-if ($pageRefreshed == 1) {
-    session_destroy();
-}
-
 /**
  * Retrieves (and initializes if needed) the session state from the given id.
  * @param string $id The session value's id.
@@ -98,13 +91,19 @@ function get_or_init_session_data(string $id, mixed $defaultValue): mixed
     return $_SESSION[$id];
 }
 
+// Reset session data when the page is reloaded
+$pageRefreshed =
+    isset($_SERVER["HTTP_CACHE_CONTROL"]) &&
+    ($_SERVER["HTTP_CACHE_CONTROL"] === "max-age=0" ||
+        $_SERVER["HTTP_CACHE_CONTROL"] == "no-cache");
+if ($pageRefreshed == 1) {
+    session_destroy();
+}
+
 // Keep the board & current player state persistant across requests
 $board = get_or_init_session_data("board", new Board());
 $cur_player = get_or_init_session_data("cur_player", Mark::X);
-
-// Echo the player to play next
 $next_player = $cur_player === Mark::X ? Mark::O : Mark::X;
-echo "Player: `" . $next_player->value . "` turn!";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get pos POST argument (the clicked cell row and column data values)
@@ -114,13 +113,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $row = intval($posData[0]);
     $col = intval($posData[1]);
 
-    // Update the board and send the new HTML state as the response
+    // Update the board with the new mark
     $board->assignMark($cur_player, $row, $col);
-    echo $twig->render("index.html.twig", ["board" => $board->getValues()]);
 
     $_SESSION["cur_player"] = $next_player;
-} else {
-    echo $twig->render("index.html.twig", ["board" => $board->getValues()]);
 }
+
+// On the first move always display `X` to move
+if (!$board->is_empty) {
+    echo "Player: `" . $next_player->value . "` turn!";
+} else {
+    echo "Player: `" . $cur_player->value . "` turn!";
+}
+
+echo $twig->render("index.html.twig", ["board" => $board->getValues()]);
 
 ?>
