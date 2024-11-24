@@ -57,7 +57,11 @@ if ($valid_move) {
 } else {
     $player_to_display = $cur_player;
 }
-echo "Player: `" . $player_to_display->value . "` turn!";
+echo "Player: `" . $player_to_display->value . "` turn! <br>";
+
+if ($board->checkWin()) {
+    echo "Winner: " . $board->checkWin()->value;
+}
 
 echo $twig->render("index.html.twig", ["board" => $board->get_values()]);
 ?>

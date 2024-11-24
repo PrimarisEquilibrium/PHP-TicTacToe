@@ -75,7 +75,7 @@ class Board
      * Determines if there is a winner and return its mark; If one doesn't exist return null.
      * @return Mark|null The mark that won the game; otherwise null.
      */
-    public function has_won(): Mark|null
+    public function checkWin(): Mark|null
     {
         // Compare all rows and columns
         for ($x = 0; $x < 3; $x++) {
@@ -85,11 +85,11 @@ class Board
 
             // Check for any winners
             if ($this->checkWinArray($row_array)) {
-                return $row_array[0]->value;
+                return $row_array[0];
             }
 
             if ($this->checkWinArray($col_array)) {
-                return $col_array[0]->value;
+                return $col_array[0];
             }
         }
 
@@ -107,10 +107,10 @@ class Board
 
         // Check for any winners
         if ($this->checkWinArray($diagonal_array_left)) {
-            return $diagonal_array_left[0]->value;
+            return $diagonal_array_left[0];
         }
         if ($this->checkWinArray($diagonal_array_right)) {
-            return $diagonal_array_right[0]->value;
+            return $diagonal_array_right[0];
         }
 
         // No winner found
