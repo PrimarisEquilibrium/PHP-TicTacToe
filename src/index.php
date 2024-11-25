@@ -33,7 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $row = intval($posData[0]);
     $col = intval($posData[1]);
 
-    if ($board->mark_from_position($row, $col) === Mark::EMPTY) {
+    // Only assign the mark if the cell is empty and the game isn't over
+    if (
+        $board->mark_from_position($row, $col) === Mark::EMPTY &&
+        !$board->checkWin()
+    ) {
         // Update the board with the new mark
         $board->assign_mark($cur_player, $row, $col);
 
