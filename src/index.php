@@ -51,8 +51,13 @@ if ($valid_move) {
     $player_to_display = $cur_player;
 }
 
-$win_state = $board->checkWin();
-$winner = $win_state ? $win_state->value : "";
+// Determine which game state to display (nothing, tie, or winner mark)
+if ($board->checkTie()) {
+    $winner = "Tie";
+} else {
+    $win_state = $board->checkWin();
+    $winner = $win_state ? $win_state->value : "";
+}
 
 echo $twig->render("index.html.twig", [
     "board" => $board->get_values(),

@@ -116,5 +116,26 @@ class Board
         // No winner found
         return null;
     }
+
+    /**
+     * Determines if the tictactoe game is a tie.
+     * Which means all cells are filled and no winner exists.
+     * @return bool True if there is a tie; otherwise false.
+     */
+    public function checkTie(): bool
+    {
+        for ($row = 0; $row < 3; $row++) {
+            for ($col = 0; $col < 3; $col++) {
+                $cell = $this->board[$row][$col];
+                if ($cell === Mark::EMPTY) {
+                    return false;
+                }
+            }
+        }
+        if ($this->checkWin()) {
+            return false;
+        }
+        return true;
+    }
 }
 ?>
