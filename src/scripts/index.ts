@@ -1,7 +1,8 @@
 window.onclick = (e: MouseEvent): void => {
   let element = e.target;
+
   // Determines if clicked element is a tic-tac-toe cell
-  if (element instanceof HTMLElement && element.className === "cell") {
+  if (element instanceof HTMLElement && element.classList.contains("cell")) {
     // Extract row and column data from HTML attributes
     let row = element.getAttribute("data-row");
     let col = element.getAttribute("data-col");

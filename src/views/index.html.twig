@@ -8,13 +8,17 @@
   </head>
   <body>
     <div class="wrapper">
-      <p>Player `{{ player_to_move }}` turn to move!</p>
-      <p>Winner: {{ winner }}</p>
+      <span>Player 
+      <span 
+        style="{{ player_to_move == 'X' ? 'color: blue' : 'color: red' }}">
+        `{{ player_to_move }}
+      `</span> turn to move!</span>
+      <span>Winner: {{ winner }}</span>
       <div class="row-container">
         {% for r, row in board %}
         <div class="row">
           {% for c, cell in row %}
-          <div class="cell" data-row="{{r}}" data-col="{{c}}">{{ cell }}</div>
+          <div class="cell {{ cell }}" data-row="{{r}}" data-col="{{c}}">{{ cell }}</div>
           {% endfor %}
         </div>
         {% endfor %}
