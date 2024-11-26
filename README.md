@@ -6,4 +6,4 @@ This project is a primitive tic-tac-toe project with the focus on learning the b
 
 ## Screenshots
 
-![tic-tac-toe project screenshot](public/screenshots/tictactoe.png)
+<img src="public/screenshots/tictactoe.png" alt="tic-tac-toe project screenshot" width=50% height=50%>
