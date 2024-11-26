@@ -4,10 +4,24 @@
   box-sizing: border-box;
 }
 
+:root {
+  --background-color: #f2f2f2;
+  --border-thickness: 3px;
+}
+
 html {
   margin: 0;
   padding: 0;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+span {
+  font-size: large;
+  margin-bottom: 1rem;
 }
 
 .wrapper {
@@ -18,19 +32,23 @@ html {
   height: calc(100vh - 24px);
 }
 
+.board-container {
+  border: var(--border-thickness) solid black;
+}
+
 .row {
   display: flex;
-  /* flex-direction: column; */
 }
 
 .cell {
+  background-color: var(--background-color);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 8rem;
   height: 8rem;
   font-size: 8rem;
-  border: 4px solid black;
+  border: var(--border-thickness) solid black;
   cursor: pointer;
 }
 

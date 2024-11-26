@@ -8,13 +8,14 @@
   </head>
   <body>
     <div class="wrapper">
+      <h1>Tic - tac - toe</h1>
       <span>Player 
       <span 
         style="{{ player_to_move == 'X' ? 'color: blue' : 'color: red' }}">
         `{{ player_to_move }}
       `</span> turn to move!</span>
       <span>Winner: {{ winner }}</span>
-      <div class="row-container">
+      <div class="board-container">
         {% for r, row in board %}
         <div class="row">
           {% for c, cell in row %}
