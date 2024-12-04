@@ -8,9 +8,9 @@ This project is a primitive tic-tac-toe project with the focus on furthering my 
 
 Make sure you have the following installed on your system:
 
-- **Node.js**: [Download Node.js](https://nodejs.org)
-- **Composer**: [Download Composer](https://getcomposer.org)
-- **PHP**: Make sure PHP is installed and configured.
+- **Node.js**
+- **Composer**
+- **PHP**
 
 ## Installation & Run Locally
 
